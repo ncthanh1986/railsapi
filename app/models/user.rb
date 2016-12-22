@@ -8,7 +8,6 @@ class User < ActiveRecord::Base
   
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates_uniqueness_of :email
-  has_many :photos
 
   def encrypt_password
     if password.present?      
