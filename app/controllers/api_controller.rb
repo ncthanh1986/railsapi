@@ -76,7 +76,7 @@ class ApiController < ApplicationController
   def upload_photo
     if request.post?
       if params[:title] && params[:image]
-        render text: "post image succesful"
+        render text: 'post image succesful'
       else
         e = Error.new(:status => 400, :message => "required parameters are missing")
         render :json => e.to_json, :status => 400
