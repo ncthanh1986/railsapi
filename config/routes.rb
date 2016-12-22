@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-	  resources :users
+  resources :users
   post 'api/signup'
   post 'api/signin'
   match "*path", to: "application#page_not_found", via: :all
