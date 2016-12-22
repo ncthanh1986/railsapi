@@ -1,0 +1,6 @@
+<% @users.each do |user| %>
+    <p> <%= user.first_name %> </p>
+    <p> <%= user.email %></p>
+    <p> <%= user.password_hash %></p>
+    <p> <%= user.password_salt %></p>
+<% end %>
