@@ -73,7 +73,24 @@ class ApiController < ApplicationController
     end
   end
 
+  def upload_photo
+    if request.post?
+      if params[:title] && params[:image]
+        render text: "post image succesful"
+      else
+        e = Error.new(:status => 400, :message => "required parameters are missing")
+        render :json => e.to_json, :status => 400
+      end
+    end
+  end
+
   private
+
+  def check_for_valid_authtoken
+    authenticate_or_request_with_http_token do |token, options|
+      @user = User.where(:api_authtoken => token).first
+    end
+  end
 
   def rand_string(len)
     o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
@@ -84,6 +101,10 @@ class ApiController < ApplicationController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_hash, :password_salt, :verification_code,
     :email_verification, :api_authtoken, :authtoken_expiry)
+  end
+
+  def photo_params
+    params.require(:photo).permit(:name, :title, :user_id, :random_id, :image_url)
   end
 
 end
