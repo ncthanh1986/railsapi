@@ -2,6 +2,7 @@ class ApiController < ApplicationController
   http_basic_authenticate_with name:ENV["API_AUTH_NAME"], password:ENV["API_AUTH_PASSWORD"], :only => [:signup]  
   before_filter :check_for_valid_authtoken, :except => [:signup]
   skip_before_filter :verify_authenticity_token
+  protect_from_forgery with: :null_session
 
   def signup
     if request.post?
