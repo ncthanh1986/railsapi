@@ -82,7 +82,7 @@ class ApiController < ApplicationController
           image_name = params[:image].original_filename
           image = params[:image].read
 
-          s3 = AWS::S3.new
+          s3 = Aws::S3.new
 
           if s3
             bucket = s3.buckets[ENV["S3_BUCKET_NAME"]]
