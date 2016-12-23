@@ -16,7 +16,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gems from railsauth
 gem 'pg'
 gem "bcrypt"
-gem "aws-sdk"
+gem "aws-sdk", '~> 2'
 gem "aescrypt"
 gem 'rails_12factor', group: :production
 gem 'spring',        group: :development
@@ -38,4 +38,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
 # gems removed before not in railsauth
-# 
+#

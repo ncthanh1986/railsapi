@@ -40,13 +40,13 @@ GEM
       tzinfo (~> 1.1)
     aescrypt (1.0.0)
     arel (7.1.4)
-    aws-sdk (2.6.41)
-      aws-sdk-resources (= 2.6.41)
-    aws-sdk-core (2.6.41)
+    aws-sdk (2.6.42)
+      aws-sdk-resources (= 2.6.42)
+    aws-sdk-core (2.6.42)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.6.41)
-      aws-sdk-core (= 2.6.41)
+    aws-sdk-resources (2.6.42)
+      aws-sdk-core (= 2.6.42)
     aws-sigv4 (1.0.0)
     bcrypt (3.1.11-x86-mingw32)
     binding_of_caller (0.7.2)
@@ -170,7 +170,7 @@ PLATFORMS
 
 DEPENDENCIES
   aescrypt
-  aws-sdk
+  aws-sdk (~> 2)
   bcrypt
   byebug
   coffee-rails (~> 4.1.0)
