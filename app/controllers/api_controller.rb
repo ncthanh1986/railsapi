@@ -77,6 +77,46 @@ class ApiController < ApplicationController
     if request.post?
       if params[:title] && params[:image]
         render text: 'post image succesful'
+        if @user && @user.authtoken_expiry > Time.now
+          rand_id = rand_string(40)
+          image_name = params[:image].original_filename
+          image = params[:image].read
+
+          s3 = AWS::S3.new
+
+          if s3
+            bucket = s3.buckets[ENV["S3_BUCKET_NAME"]]
+
+            if !bucket
+              bucket = s3.buckets.create(ENV["S3_BUCKET_NAME"])
+            end
+
+            s3_obj = bucket.objects[rand_id]
+            s3_obj.write(image, :acl => :public_read)
+            image_url = s3_obj.public_url.to_s
+
+            photo = Photo.new(:name => image_name, :user_id => @user.id, :title => params[:title], :image_url => image_url, :random_id => rand_id)
+
+            if photo.save
+              render :json => photo.to_json
+            else
+              error_str = ""
+
+              photo.errors.each{|attr, msg|
+                error_str += "#{attr} - #{msg},"
+              }
+
+              e = Error.new(:status => 400, :message => error_str)
+              render :json => e.to_json, :status => 400
+            end
+          else
+            e = Error.new(:status => 401, :message => "AWS S3 signature is wrong")
+            render :json => e.to_json, :status => 401
+          end
+        else
+          e = Error.new(:status => 401, :message => "Authtoken has expired")
+          render :json => e.to_json, :status => 401
+        end
       else
         e = Error.new(:status => 400, :message => "required parameters are missing")
         render :json => e.to_json, :status => 400
