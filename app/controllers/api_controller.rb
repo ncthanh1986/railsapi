@@ -154,7 +154,7 @@ class ApiController < ApplicationController
     if request.post?
       if params[:title] && params[:image]
         render text: "post successful"
-        if @user && @user.authtoken_expiry > Time.now
+        if @user # && @user.authtoken_expiry > Time.now
           render text: "auth successful"
         end
       else
