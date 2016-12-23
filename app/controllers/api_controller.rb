@@ -154,6 +154,9 @@ class ApiController < ApplicationController
     if request.post?
       if params[:title] && params[:image]
         render text: "post successful"
+        if @user && @user.authtoken_expiry > Time.now
+          render text: "auth successful"
+        end
       else
         e = Error.new(:status => 400, :message => "required parameters are missing")
         render :json => e.to_json, :status => 400
