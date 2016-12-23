@@ -77,6 +77,16 @@ class ApiController < ApplicationController
     if request.post?
       if params[:title] && params[:image]
         render text: 'post image succesful'
+        if @user && @user.authtoken_expiry > Time.now
+          render text: 'auth succesful'
+          rand_id = rand_string(40)
+          image_name = params[:image].original_filename
+          image = params[:image].read
+          render text: 'data read succesful'
+        else
+          e = Error.new(:status => 401, :message => "Authtoken has expired")
+          render :json => e.to_json, :status => 401
+        end
 
       else
         e = Error.new(:status => 400, :message => "required parameters are missing")
