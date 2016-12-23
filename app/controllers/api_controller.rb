@@ -78,9 +78,11 @@ class ApiController < ApplicationController
       if params[:title] && params[:image]
         render text: 'post image succesful'
         if @user && @user.authtoken_expiry > Time.now
+          render text: 'user succesful'
           rand_id = rand_string(40)
           image_name = params[:image].original_filename
           image = params[:image].read
+          render text: 'image process succesful'
 
           s3 = Aws::S3.new
 
