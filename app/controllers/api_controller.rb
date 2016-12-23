@@ -79,10 +79,6 @@ class ApiController < ApplicationController
         render text: 'post image succesful'
         if @user && @user.authtoken_expiry > Time.now
           render text: 'auth succesful'
-          rand_id = rand_string(40)
-          image_name = params[:image].original_filename
-          image = params[:image].read
-          render text: 'data read succesful'
         else
           e = Error.new(:status => 401, :message => "Authtoken has expired")
           render :json => e.to_json, :status => 401
@@ -99,7 +95,8 @@ class ApiController < ApplicationController
 
   def check_for_valid_authtoken
     authenticate_or_request_with_http_token do |token, options|
-      @user = User.where(:api_authtoken => token).first
+      @user = User.find_by(api_authtoken: token)
+      #@user = User.where(:api_authtoken => token).first
     end
   end
 
